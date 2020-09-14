@@ -14,23 +14,41 @@
 	<body>
 		<headline>
 			<h1> Janis Bögershausen </h1>
+			<h4> ! UNDER CONSTRUCTION ! </h4>
 			<ul id="menu">
-				<li>Game Development</li>
-				<li>Programming</li>
-				<li>3D-Art</li>
-				<li>2D-Art</li>
-				<li>Music</li>
+				<li id = "sectionButton">Game Development</li>
+				<li id = "sectionButton">Programming</li>
+				<li id = "sectionButton">3D-Art</li>
+				<li id = "sectionButton">2D-Art</li>
+				<li id = "sectionButton">Music</li>
 			</ul>  
 		</headline>
 		
 		<categories>
 			<category>
-				<categoryHeader> Game Development</categoryHeader>
-				<categoryContentGrid>
-					<div class="grid-item" style="background-image:url('images/placeholder.jpg')">Project-S</div>
+				<categoryHeader>Game Development</categoryHeader>
+				<categoryContentGrid class="grid">
+					<div class="grid-item" onclick="window.open('https://zail1337.itch.io/detective-again','_blank');">
+						<projectTitle> Project-S </projectTitle>
+						<img id="projectImg" style="width:100%; height:100%" src="images/placeholder.jpg">
+					</div>
+					<div class="grid-item">
+						<projectTitle> Detective: Again! </projectTitle>
+						<img id="projectImg" style="width:100%; height:100%" src="images/placeholder.jpg">
+					</div>
+					<div class="grid-item">
+						<projectTitle> WIP </projectTitle>
+						<img id="projectImg" style="width:100%; height:100%" src="images/placeholder.jpg">
+					</div>
+				</categoryContentGrid>
+			</category>
+			<category>
+				<categoryHeader>Programming</categoryHeader>
+				<categoryContentGrid class="grid">
+					<div class="grid-item" style="background-image:url('images/placeholder.jpg')">2D Particle Simulation</div>
 					<div class="grid-item" style="background-image:url('images/placeholder.jpg')">Detective: Again!</div>
 					<div class="grid-item" style="background-image:url('images/placeholder.jpg')">WIP</div>
-				<categoryContentGrid>
+				</categoryContentGrid>
 			</category>
 		</categories>
 	</body>
