@@ -1,0 +1,59 @@
+body {
+	background-color: 30323D;
+}
+
+headline {
+	display: inline-block;
+	height: 500px;
+	width: 100%;
+	text-align: center;
+	background-color: 59A5D8;
+	color:white;
+	font-size: 50px;
+	font-family: Source Code Pro;
+}
+
+ul#menu li {
+  display:inline;
+  margin:30px;
+  font-size:30px;
+}
+
+categories {
+	
+}
+
+category {
+	margin:20px;
+	display: block;
+	height:400px;
+	width:auto;
+	color: white;
+	font-family: Source Code Pro;
+	background-color:2D2F39
+}
+
+categoryHeader {
+	margin:0px;
+	font-size: 30px;
+	background-color: 24262e;
+	width: auto;
+	display: block;
+	padding: 20px;
+}
+
+categoryContentGrid {
+	display: grid;
+	grid-template-columns: auto auto auto;
+	background-color: #2196F3;
+}
+
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  font-size: 30px;
+  text-align: center;
+  width:100%;
+  display:block;
+  height:500px;
+  
+}
