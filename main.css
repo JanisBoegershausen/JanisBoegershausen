@@ -1,3 +1,5 @@
+html { scroll-behavior: smooth; } 
+
 body {
 	background-color: 30323D;
 }
@@ -7,7 +9,8 @@ headline {
 	height: 500px;
 	width: 100%;
 	text-align: center;
-	background-color: 59A5D8;
+	/*background-color: #59A5D8;*/
+	background-color: #30323D;
 	color:white;
 	font-size: 50px;
 	font-family: Source Code Pro;
@@ -55,18 +58,18 @@ categoryContentGrid {
 
 #projectImg {
 	transition: 0.1s;
-  cursor:pointer;
-}
-
-#projectImg:hover {
-	filter: brightness(0.75) blur(1px) contrast(1.1);
-	position: static;
+	color:transparent;	
+	cursor:pointer;
+	pointer-events: none;
+	max-width: 100%;
+	height: auto;
 }
 
 .grid {
   display: grid;
   /*grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));*/
   grid-auto-rows: 1fr;
+  grid-template-columns: repeat(3, 1fr);
 }
 
 .grid::before {
@@ -88,6 +91,9 @@ categoryContentGrid {
   margin:30px;
   font-size:30px;
   cursor:pointer;
+  color:white;
+  font-family: Source Code Pro;
+  text-decoration: none;
 }
 
 #sectionButton:hover {
@@ -105,4 +111,38 @@ projectTitle {
 	position: absolute;
 	z-index: 999;
 	pointer-events: none;
+}
+
+#moreText {
+	transition: 0.3s;
+	width:100%;
+	display:block;
+	padding-top: 50%;
+	padding-bottom: 44%;
+	filter:brightness(1);
+	filter: brightness(1.0) blur(0px) contrast(1.0) !important;
+	position: absolute !important;
+	z-index: 999 !important;
+	color:transparent;
+	cursor:pointer;
+}
+
+#moreText:hover {
+	color:white !important;
+	filter: brightness(1.0) blur(0px) contrast(1.0) !important;
+}
+
+#moreText:hover + #projectImg {
+	filter: brightness(0.9) blur(1px) contrast(1.1) !important;
+}
+
+#underConstructionWarning {
+	transition: 1s;
+	cursor: grab;
+}
+
+#underConstructionWarning:active {
+	margin-bottom: 1000px;
+	color:#30323D;
+	filter: blur(10px);
 }
