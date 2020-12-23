@@ -1,0 +1,56 @@
+<head>
+	<style>
+		body {
+			background-color: 30323D;
+		}
+		
+		headline {
+			display: inline-block;
+			height: 100px;
+			width: 100%;
+			text-align: center;
+			/*background-color: #59A5D8;*/
+			background-color: #30323D;
+			color:white;
+			font-size: 50px;
+			font-family: Source Code Pro;
+		}
+		
+		textSection {
+			margin-bottom: 10px;
+			font-size: 30px;
+			background-color: 24262e;
+			width: auto;
+			display: block;
+			font-family: Source Code Pro;
+			padding: 20px;
+			color:white;
+		}
+	</style>
+</head>
+
+<body>
+	<headline> Magic Code </headline>
+	<textSection>
+		What is this project?
+		<div style="font-size: 20px;">
+			This project currently goes under the development name "Magic Code" and so far, it's just a prototype of a node-based spell making system. 
+		</div>
+	</textSection>
+	<textSection>
+		How it works
+		<div style="font-size: 20px;">
+The system is based on two essential parts.
+Spells and the spell-nodes they contain. <br>
+Each spell contains a list of spell-nodes, of which one is saved as the starting node. <br>
+<br>
+Every type of spell-node (AddForce, Multiply, etc.) is its own class, that derives from one SpellNode class. That way every type of node has its own code and data, but they can all be handled the same by the spell script. Nodes store a list of sockets, which store their type, current data and the node they are connected to. <br><br>
+
+An important distinction is the one between active and passive nodes. <br>
+			Active nodes are the ones with green sockets (order-of-execution). Each of them run their code once called and then run the next node they are connected to. <br>
+On the other hand, we have passive nodes. These are nodes that just handle data in some way (like all the math functions for example). They don't have this order-of-execution socket, because they are run every time another node tries to read data from one of its data-sockets. This also propagates backward, so if an Add-Force-Node tries to read data from a multiply-node, the multiply node is run, but if there are other passives plugged into the multiply, they are run first and so on. <br><br>
+
+So when a spell is cast, the start node calls the node that is connected to its order-of-execution-socket, which then does its thing, reads data to the input sockets, writes data to its output sockets and then calls the next node, connected to its order-of-execution-socket. 
+		</div>
+	</textSection>
+</body>
