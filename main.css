@@ -166,3 +166,11 @@ projectTitle {
 #underConstructionWarning:active ~ #helloThere {
 	color: white;
 }
+
+#social_twitter:hover {
+	filter: brightness(75%) sepia(100) saturate(85) hue-rotate(-168deg)
+}
+
+#social_itch:hover {
+	filter: brightness(74%) sepia(100) saturate(70) hue-rotate(-10deg)
+}
