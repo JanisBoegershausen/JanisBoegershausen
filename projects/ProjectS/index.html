@@ -30,6 +30,7 @@
 </head>
 
 <body>
+	<headline style="color: white; text-align: left; font-size: 20px; height:20px" onclick="window.open('https://janisboegershausen.github.io/');">Home</headline>
 	<headline> Project-S </headline>
 	<textSection>
 		What is this project?
@@ -57,16 +58,44 @@
 				- Allow the player to build and manage a town/castle, where the player can give NPCs tasks, collect taxes and gain a growing influence over the area.
 			</div>
 		</textSection>
-		<textSection style="height:395px">
+		<textSection>
 			Grass Performance Test</br>
 			<div style="font-size: 15px; color: gray;">24.03.2021</div>
-			<video style="margin-top: 15px; margin-right: 10px; float: left" width="576" height="324" controls>
+			<div style="font-size: 20px; margin-top: 10px; float:left">
+				Today I worked on grass performance. I love the dense foliage in kingdom come deliverance, so I would love to achieve something similar. 
+				The results of today are quite promising, but I must do some more testing in actual scenes. 
+				
+			</div>
+			<video style="margin-top: 15px; margin-right: 10px" width="576" height="324" controls>
 				<source src="Assets/Grass Stresstest_cut.mp4" type="video/mp4">
 				Your browser does not support the video tag.
 			</video> 
+			<div>How to?</div>
 			<div style="font-size: 20px; margin-top: 10px">
-				Today I worked on grass performance. I love the dense foliage in kingdom come deliverance, so I would love to achieve something similar. 
-				The results of today are quite promising, but I must do some more testing in actual scenes. 
+				<div style="font-size: 25px; margin-top: 10px">LODs</div>
+				The most important thing I did was using LODs, so that a different grass mesh is shown, based on the distance to the camera. 
+				One grass mesh for me is 16 patches of grass. <br>
+				On the high detail LODs, each patch has 4 Faces, rotated each by 45 degrees. 
+				This way it looks like more and not just a single plain. The further away from the camera, the mesh is, 
+				the fewer sides each patch has and at max distance, before it becomes completely invisible, each patch only consists of a single face.
+				<br>
+				<br>
+				<img style="height:400px; width:auto" src="Assets/Grass Test/lodExampleLow.PNG">
+				<img style="height:400px; width:auto" src="Assets/Grass Test/lodExampleHigh.PNG">
+				<br>
+				<a href="https://docs.unity3d.com/Manual/LevelOfDetail.html" style="color: lightblue">"Level of Detail (LOD) for meshes" in the Unity Documentation</a>
+				<br>
+				<div style="font-size: 25px; margin-top: 10px">Triangles</div>
+				Another thing I did was not using quads to render each patch. Instead, I use a single triangle with different UVs, which allows me to basically half
+				the amount of rendered triangles. It is important to set the repeating mode on the grass texture to clamp, to avoid bugs.
+				<br>
+				<img style="height:400px; width:auto" src="Assets/Grass Test/uvExample.PNG">
+				<div style="font-size: 25px; margin-top: 10px">Vertex Displacement For Variety</div>
+				To avoid any patterns in the grass from placing them down, I added a random vertex displacement based on the position of the object. 
+				That way, every cluster of grass is slightly different, without me having to change anything manually. 
+				(I just added the output of a gradient noise, that was sampled based on the world position, to the vertex position in the shader)
+				<br>
+				
 			</div>
 		</textSection>
 	</blogPosts>
