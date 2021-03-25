@@ -167,10 +167,26 @@ projectTitle {
 	color: white;
 }
 
+#social_twitter {
+	filter: brightness(1000%)
+}
+
 #social_twitter:hover {
 	filter: brightness(75%) sepia(100) saturate(85) hue-rotate(-168deg)
 }
 
+#social_itch {
+	filter: brightness(1000%)
+}
+
 #social_itch:hover {
 	filter: brightness(74%) sepia(100) saturate(70) hue-rotate(-10deg)
+}
+
+#social_artstation {
+	filter: brightness(1000%)
+}
+
+#social_artstation:hover {
+	filter: brightness(75%) sepia(100) saturate(75) hue-rotate(-185deg)
 }
