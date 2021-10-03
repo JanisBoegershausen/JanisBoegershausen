@@ -40,8 +40,21 @@ function ResizeCanvasToFit() {
 function draw() {
     ResizeCanvasToFit();
 
-    // Zoom
-    cameraFovMult = 0.1 + max(0, (mouseY / height));
+    // Move
+    if(keyIsPressed) {
+        if(keyIsDown(87)) {
+            camPos.z -= 0.1;
+        }
+        if(keyIsDown(83)) {
+            camPos.z += 0.1;
+        }
+        if(keyIsDown(65)) {
+            camPos.x += 0.1;
+        }
+        if(keyIsDown(68)) {
+            camPos.x -= 0.1;
+        }
+    }
 
     // Clear
     background(20, 22, 25);
@@ -74,23 +87,29 @@ function GetRayDirection(screenX, screenY) {
     return p5.Vector.sub(p, createVector(0, 0, 0));
 }
 
-// Cast a ray from an origin in a given direction. If it hits a triangle, returns the hitPoint, otherwise returns null.
+// Cast a ray from an origin in a given direction. If it hits the triangle, returns the hitPoint, otherwise returns null.
 function CastRay(origin, direction) {
-    var triangle = triangles[0];
     direction.normalize();
-    // Calculate the distance the ray traveled before hitting the triangle (if it hits)
-    var triangleNormal = triangle.GetNormal();
-    var D = p5.Vector.dot(triangleNormal, triangle.p0);
-    var distance = -(p5.Vector.dot(triangleNormal, origin) + D) / p5.Vector.dot(triangleNormal, direction);
-    
-    // Calculate the hit point
-    var hitPoint = p5.Vector.add(origin, p5.Vector.mult(direction, distance));
 
-    if(InsideOutsideTest(triangle, hitPoint)) {
-        return hitPoint;
-    } else {
-        return null;
+    for(var i = 0; i < triangles.length; i += 1) {
+        var triangle = triangles[i];
+
+        // Calculate the distance the ray traveled before hitting the triangle (if it hits)
+        var triangleNormal = triangle.GetNormal();
+        var D = p5.Vector.dot(triangleNormal, triangle.p0);
+        var distance = -(p5.Vector.dot(triangleNormal, origin) + D) / p5.Vector.dot(triangleNormal, direction);
+        
+        // Calculate the hit point
+        var hitPoint = p5.Vector.add(origin, p5.Vector.mult(direction, distance));
+
+        // Check if the point on the plane we intersected is inside the tringle
+        if(InsideOutsideTest(triangle, hitPoint)) {
+            return hitPoint;
+        }
     }
+
+    // If no hit was found, return null
+    return null;
 }
 
 // Test if the given triangle contains the given point. 
@@ -117,7 +136,6 @@ function InsideOutsideTest(triangle, point) {
 function DrawPixel(x, y, r, g, b) {
     fill(r, g, b);
     strokeWeight(0);
-    noStroke();
     
     posX = (x / resolution.x) * width;
     posY = (y / resolution.y) * height;
