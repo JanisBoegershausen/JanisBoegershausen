@@ -69,25 +69,28 @@ function draw() {
     }
 
     // Raytrace
+    var uv = {x: 0, y: 0}
     for(var x = 0; x < resolution.x; x+=1) {
         for(var y = 0; y < resolution.y; y+=1) {
             // Raytracer skips random pixels based on their distance from the center for better performance. (Adds jitter!)
-            var pixelDistanceFromCenterSqrt = pow(x - resolution.x / 2, 2) + pow(y - resolution.y / 2, 2);
-            if(pow(random(0, 100), 2) < pixelDistanceFromCenterSqrt) {
+            var pixelDistanceFromCenterSqrt = abs((x - resolution.x / 2) / resolution.x) + abs((y - resolution.y / 2) / resolution.y);
+            var chanceToSkipPixel = 99.5;
+            if(random(0, 100) < chanceToSkipPixel * pixelDistanceFromCenterSqrt) {
+                //DrawPixel(x, y, 255, 255, 0); // Highlight skipped pixels
                 continue;
             }
 
-            var uv = {x: x  / resolution.x, y: y / resolution.y}
+            uv.x = x  / resolution.x;
+            uv.y = y / resolution.y;
 
             var camDirection = GetRayDirection(uv.x, uv.y);
-            camDirection.normalize();
 
             var hit = CastRay(camPos, camDirection);
 
             if(hit != null) {
-                DrawPixel(x, y, hit.triangle.color.r, hit.triangle.color.g, hit.triangle.color.b, 255)
+                DrawPixel(x, y, hit.triangle.color.r, hit.triangle.color.g, hit.triangle.color.b, 255); // Draw traingle pixel
             } else {
-                DrawPixel(x, y, 0,0,0, 200)
+                DrawPixel(x, y, 0,0,0, 200); // Fade empty pixel to black
             }
         }
     }
@@ -99,7 +102,7 @@ function GetRayDirection(screenX, screenY) {
     var p = createVector(((screenX * 2) - 1)*cameraFovMult, ((screenY * 2) - 1)*cameraFovMult, 1);
     p.normalize();
 
-    return p5.Vector.sub(p, createVector(0, 0, 0));
+    return p;
 }
 
 // Cast a ray from an origin in a given direction. If it hits the triangle, returns the hitPoint, otherwise returns null.
