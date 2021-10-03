@@ -20,8 +20,18 @@ function setup() {
         new Triangle(
             createVector(-1, -1, 3), 
             createVector(-1,  1, 3),
-            createVector( 1,  -1, 3))
-        );
+            createVector( 1,  -1, 3),
+            { r: 200, g: 0, b: 0 }
+        )
+    );
+    triangles.push(
+        new Triangle(
+            createVector(-1,  1, 3), 
+            createVector( 1,  1, 3),
+            createVector( 1, -1, 3),
+            { r: 0, g: 0, b: 200 }
+        )
+    );
 
     frameRate(20);
 }
@@ -58,15 +68,12 @@ function draw() {
         }
     }
 
-    // Clear
-    //background(20, 22, 25);
-
     // Raytrace
     for(var x = 0; x < resolution.x; x+=1) {
         for(var y = 0; y < resolution.y; y+=1) {
             // Raytracer skips random pixels based on their distance from the center for better performance. (Adds jitter!)
-            var pixelDistanceFromCenter = sqrt(pow(x - resolution.x / 2, 2) + pow(y - resolution.y / 2, 2));
-            if(random(0, 100) < pixelDistanceFromCenter) {
+            var pixelDistanceFromCenterSqrt = pow(x - resolution.x / 2, 2) + pow(y - resolution.y / 2, 2);
+            if(pow(random(0, 100), 2) < pixelDistanceFromCenterSqrt) {
                 continue;
             }
 
@@ -75,10 +82,10 @@ function draw() {
             var camDirection = GetRayDirection(uv.x, uv.y);
             camDirection.normalize();
 
-            var hitPoint = CastRay(camPos, camDirection);
+            var hit = CastRay(camPos, camDirection);
 
-            if(hitPoint != null) {
-                DrawPixel(x, y, hitPoint.mag() * 20, hitPoint.mag() * 20, hitPoint.mag() * 20, 255)
+            if(hit != null) {
+                DrawPixel(x, y, hit.triangle.color.r, hit.triangle.color.g, hit.triangle.color.b, 255)
             } else {
                 DrawPixel(x, y, 0,0,0, 200)
             }
@@ -112,7 +119,7 @@ function CastRay(origin, direction) {
 
         // Check if the point on the plane we intersected is inside the tringle
         if(InsideOutsideTest(triangle, hitPoint)) {
-            return hitPoint;
+            return new RayHitInfo(triangle, hitPoint);
         }
     }
 
@@ -152,10 +159,12 @@ function DrawPixel(x, y, r, g, b, a) {
 }
 
 class Triangle {
-    constructor(a, b, c) {
+    constructor(a, b, c, color) {
         this.p0 = a;
         this.p1 = b;
         this.p2 = c;
+
+        this.color = color;
     }
 
     GetNormal() {
@@ -164,5 +173,12 @@ class Triangle {
         var C = p5.Vector.cross(A, B);
         C.normalize();
         return C;
+    }
+}
+
+class RayHitInfo {
+    constructor(triangle, point) {
+        this.triangle = triangle;
+        this.point = point;
     }
 }
