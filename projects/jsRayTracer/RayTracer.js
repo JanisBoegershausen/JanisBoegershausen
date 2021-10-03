@@ -2,7 +2,7 @@
 // https://www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-rendering-a-triangle/ray-triangle-intersection-geometric-solution
 
 // Resolution of the raytracer.
-var resolution = {x: 40, y: 40};
+var resolution = {x: 100, y: 100};
 // List of all triangles that are rendered
 var triangles = []
 
@@ -34,7 +34,9 @@ function InitializeNewCanvas() {
 
 function ResizeCanvasToFit() {
     var sketchHolder = document.getElementById('rayTracer-canvas')
-    resizeCanvas(sketchHolder.offsetWidth, sketchHolder.offsetHeight);
+    if(sketchHolder.offsetWidth != width || sketchHolder.offsetHeight != height) {
+        resizeCanvas(sketchHolder.offsetWidth, sketchHolder.offsetHeight);
+    }
 }
 
 function draw() {
@@ -57,11 +59,17 @@ function draw() {
     }
 
     // Clear
-    background(20, 22, 25);
+    //background(20, 22, 25);
 
     // Raytrace
     for(var x = 0; x < resolution.x; x+=1) {
         for(var y = 0; y < resolution.y; y+=1) {
+            // Raytracer skips random pixels based on their distance from the center for better performance. (Adds jitter!)
+            var pixelDistanceFromCenter = sqrt(pow(x - resolution.x / 2, 2) + pow(y - resolution.y / 2, 2));
+            if(random(0, 100) < pixelDistanceFromCenter) {
+                continue;
+            }
+
             var uv = {x: x  / resolution.x, y: y / resolution.y}
 
             var camDirection = GetRayDirection(uv.x, uv.y);
@@ -70,9 +78,9 @@ function draw() {
             var hitPoint = CastRay(camPos, camDirection);
 
             if(hitPoint != null) {
-                DrawPixel(x, y, hitPoint.mag() * 20, hitPoint.mag() * 20, hitPoint.mag() * 20)
+                DrawPixel(x, y, hitPoint.mag() * 20, hitPoint.mag() * 20, hitPoint.mag() * 20, 255)
             } else {
-                
+                DrawPixel(x, y, 0,0,0, 200)
             }
         }
     }
@@ -133,8 +141,8 @@ function InsideOutsideTest(triangle, point) {
 }
 
 // Draw a pixel given a point in scaled coordinates. (If resolutionWidth == 10, x = 9 would be at the far right end of the screen)
-function DrawPixel(x, y, r, g, b) {
-    fill(r, g, b);
+function DrawPixel(x, y, r, g, b, a) {
+    fill(r, g, b, a);
     strokeWeight(0);
     
     posX = (x / resolution.x) * width;
