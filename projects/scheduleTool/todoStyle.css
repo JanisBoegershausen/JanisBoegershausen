@@ -1,0 +1,122 @@
+@keyframes scaleUp {
+  from {scale:1}
+  to {scale:1.5}
+}
+
+@keyframes addEntry {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes check {
+  from {
+    scale: 0;
+    transform: rotate(-180deg);
+  }
+  to {
+    scale: 1;
+    transform: rotate(0deg);
+  }
+}
+
+.todoListEntry {
+  animation-name: addEntry;
+  animation-duration: 500ms;
+  display: block;
+  text-align: left;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  height: 20px;
+  font-size: 2vh;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Hide default checkbox */
+.todoListEntry input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
+}
+
+.todoListEntry:hover {
+  font-weight: bolder;
+}
+
+/* On mouse-over, add a grey background color */
+.todoListEntry:hover input ~ .checkmark {
+  background-color: #ccc;
+  animation-name: scaleUp;
+  animation-duration: 50ms;
+  scale:1.5;
+}
+
+/* When the checkbox is checked, add a blue background */
+.todoListEntry input:checked ~ .checkmark {
+  background-color: #2196f3;
+}
+.todoListEntry input:checked ~ .checkmark:after {
+  animation-name: check;
+  animation-duration: 200ms;
+}
+
+/* Make the checkmark only visible when checked */
+.todoListEntry input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Checkmark */
+.todoListEntry .checkmark:after {
+  content: " ";
+  position: absolute;
+  display: none;
+  left: 12.5%;
+  top: 12.5%;
+  width: 75%;
+  height: 75%;
+  background-color: transparent;
+  background-image: url("../../images/checkmark.png");
+  background-size: cover;
+  transform: rotate(0deg);
+  scale:1;
+}
+
+.todoListAddButton {
+  content: "";
+  cursor: pointer;
+  height: 20px;
+  width: 20px;
+  background-image: url("../../images/plus.png");
+  background-size: cover;
+}
+
+.todoListAddTextInput {
+  font-size: 2vh;
+  margin-left: 10px;
+  margin-top: -5px;
+  margin-bottom: -5px;
+  padding-left: 5px;
+  background-color: #30323D; 
+  color: white; 
+  border-width: 0px;
+  font-weight: bold;
+}
