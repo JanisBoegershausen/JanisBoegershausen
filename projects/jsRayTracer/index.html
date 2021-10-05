@@ -30,6 +30,9 @@
 	</style>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+	<script language="javascript" type="text/javascript" src="Vector.js"></script>
+	<script language="javascript" type="text/javascript" src="RayHitInfo.js"></script>
+	<script language="javascript" type="text/javascript" src="Triangle.js"></script>
 	<script language="javascript" type="text/javascript" src="RayTracer.js"></script>
 </head>
 
@@ -37,7 +40,7 @@
 	<headline style="color: white; cursor:pointer; text-align: left; font-size: 20px; height:20px" onclick="window.open('https://janisboegershausen.github.io/');">Home</headline>
 	<headline> Raytracer </headline>
 	<textSection>
-		A simple <coloredText style="color:tomato;">(WIP)</coloredText> raytracer written in javascript. Move the camera with <coloredText style="color:rgb(55, 143, 245);">WASD</coloredText>.
+		A simple <coloredText style="color:tomato;">(WIP)</coloredText> raytracer written in javascript.
 	</textSection>
 	<textSection>
 		Canvas
@@ -48,7 +51,10 @@
 	<textSection>
 		Info
 		<div style="font-size: 20px; margin-top: 10px">
-			This is a simple raytracer written in JavaScript. You can check out the sourcecode on my github in the repository for this website. 
+			This is a simple raytracer written in JavaScript. 
+			You can check out the sourcecode <a href="https://github.com/JanisBoegershausen/JanisBoegershausen.github.io/tree/master/projects/jsRayTracer">HERE</a>.
+			<br>
+			More features will come soon. So far this only renders two triangles using Web-Workers. I plan to add shading and reflections soon.
 		</div>
 	</textSection>
 </body>
