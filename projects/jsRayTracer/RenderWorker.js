@@ -1,25 +1,35 @@
-importScripts("Math.js", "Vector.js", "Triangle.js", "RayHitInfo.js");
+importScripts(
+  "Math.js",
+  "Vector.js",
+  "Triangle.js",
+  "RayHitInfo.js",
+  "EnviromentTexture.js"
+);
 
-// In realtime mode, pixel-skipping is enabled, which enhances performance, but introduces noise!
-var useRealtimeMode = false;
+settings = {
+  // In realtime mode, pixel-skipping is enabled, which enhances performance, but introduces noise!
+  useRealtimeMode: false,
 
-// List of triangles to be rendered (updated by RayTracer)
-var triangles = [];
+  // List of triangles to be rendered (updated by RayTracer)
+  triangles: [],
 
-// Camera settings (updated by RayTracer)
-var camPos;
-var cameraFovMult = 1;
+  // Camera settings (updated by RayTracer)
+  camPos: null,
+  cameraFovMult: 1,
 
-// Area this worker has to render
-var area = { x: 0, y: 0, w: 100, h: 100 };
-var resolution = new Vector(100, 100, 0);
+  enviromentTexture: new EnviromentTexture(),
+
+  // Area this worker has to render
+  area: { x: 0, y: 0, w: 100, h: 100 },
+  resolution: new Vector(100, 100, 0),
+};
 
 self.addEventListener("message", (e) => {
   if (e.data.type == "AssignArea") {
     console.log(
       `Setting area to: x: ${e.data.x}, y: ${e.data.y}, w: ${e.data.w}, h: ${e.data.h}. `
     );
-    area = e.data;
+    settings.area = e.data;
   } else if (e.data.type == "StartLoop") {
     // Start rendering loop. Random delay, so that the workers always complete their area at different
     // times and dont block each other when sending the pixels to the main script.
@@ -29,10 +39,10 @@ self.addEventListener("message", (e) => {
   } else if (e.data.type == "SetTriangles") {
     SetTrianglesFromObjArray(e.data.triangles);
   } else if (e.data.type == "SetCamData") {
-    camPos = e.data.camPos;
-    cameraFovMult = e.data.cameraFovMult;
+    settings.camPos = e.data.camPos;
+    settings.cameraFovMult = e.data.cameraFovMult;
   } else if (e.data.type == "SetResolution") {
-    resolution = e.data.resolution;
+    settings.resolution = e.data.resolution;
   }
 });
 
@@ -43,10 +53,10 @@ function StartRenderLoop() {
 
 // Since objects loose their type when send to a worker, restore the type to Traingle.
 function SetTrianglesFromObjArray(objArray) {
-  triangles = [];
+  settings.triangles = [];
 
   for (var i = 0; i < objArray.length; i += 1) {
-    triangles.push(
+    settings.triangles.push(
       new Triangle(
         objArray[i].p0,
         objArray[i].p1,
@@ -60,9 +70,9 @@ function SetTrianglesFromObjArray(objArray) {
 // Render the dedicated area
 function RenderFrame() {
   var pixels = [];
-  for (var x = area.x; x < area.x + area.w; x += 1) {
+  for (var x = settings.area.x; x < settings.area.x + settings.area.w; x += 1) {
     pixels[x] = [];
-    for (var y = area.y; y < area.y + area.h; y += 1) {
+    for (var y = settings.area.y; y < settings.area.y + settings.area.h; y += 1) {
       pixels[x][y] = RenderPixel(x, y);
     }
   }
@@ -73,7 +83,7 @@ function RenderFrame() {
 
 // Returns the color of a given pixel
 function RenderPixel(x, y) {
-  if (useRealtimeMode) {
+  if (settings.useRealtimeMode) {
     // Raytracer skips random pixels based on their distance from the center for better performance. (Adds noise!)
     var pixelDistanceFromCenterSqrt =
       Math.abs((x - resolution.x / 2) / resolution.x) +
@@ -90,13 +100,13 @@ function RenderPixel(x, y) {
   }
 
   // Calculate the screen coordinate in a range between 0 and 1
-  var uv = new Vector(x / resolution.x, y / resolution.y);
+  var uv = new Vector(x / settings.resolution.x, y / settings.resolution.y);
 
   // Get the direciton vector for the current pixel on the screen
   var camDirection = GetRayDirection(uv.x, uv.y);
 
   // Cast a ray from the camera in the calculated direction and store the RayHitInfo
-  var hit = CastRay(camPos, camDirection);
+  var hit = CastRay(settings.camPos, camDirection);
 
   // If a triangle was hit, return the respective triangles color, otherwise return black
   if (hit != null) {
@@ -107,12 +117,7 @@ function RenderPixel(x, y) {
       a: 255,
     };
   } else {
-    return {
-      r: 0,
-      g: 0,
-      b: 0,
-      a: useRealtimeMode ? 200 : 255, // If we are using realTimeMode, we want there to be a slight fade, which is why a < 255
-    };
+    return settings.enviromentTexture.Sample(camDirection);
   }
 }
 
@@ -120,8 +125,8 @@ function RenderPixel(x, y) {
 function CastRay(origin, direction) {
   direction = direction.normalized();
 
-  for (var i = 0; i < triangles.length; i += 1) {
-    var triangle = triangles[i];
+  for (var i = 0; i < settings.triangles.length; i += 1) {
+    var triangle = settings.triangles[i];
 
     // Calculate the distance the ray traveled before hitting the triangle (if it hits)
     var triangleNormal = triangle.GetNormal();
@@ -148,8 +153,8 @@ function CastRay(origin, direction) {
 function GetRayDirection(screenX, screenY) {
   // Get point on grid infront of camera
   var p = new Vector(
-    (screenX * 2 - 1) * cameraFovMult,
-    (screenY * 2 - 1) * cameraFovMult,
+    (screenX * 2 - 1) * settings.cameraFovMult,
+    (screenY * 2 - 1) * settings.cameraFovMult,
     1
   );
   return p.normalized();

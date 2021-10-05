@@ -6,15 +6,19 @@ var triangles = [];
 
 // Camera settings and data
 var camPos;
-var cameraFovMult = 0.5;
+var cameraFovMult = 3;
 
 // Worker settings and data
 var renderWorkers = [];
 var horizontalTileCount = 4;
 var verticalTileCount = 4;
 
+var enviromentTexture;
+
 function setup() {
   InitializeNewCanvas();
+
+  enviromentTexture = new EnviromentTexture();
 
   camPos = new Vector(0, 0, 0);
 
