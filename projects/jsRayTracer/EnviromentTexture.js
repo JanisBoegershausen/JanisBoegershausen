@@ -20,12 +20,7 @@ class EnviromentTexture {
     context.drawImage(img, 0, 0);
 
     // Read pixels from the canvas
-    var myData = context.getImageData(
-      0,
-      0,
-      img.naturalWidth,
-      img.naturalHeight
-    );
+    var myData = context.getImageData(0, 0, img.naturalWidth, img.naturalHeight);
 
     // Set dimensions
     this.width = myData.width;
@@ -34,10 +29,7 @@ class EnviromentTexture {
     for (var x = 0; x < this.width; x += 1) {
       this.pixels[x] = [];
       for (var y = 0; y < this.height; y += 1) {
-        var colorStartIndex = this.ImageDataArrayIndexFromTextureCoordinate(
-          x,
-          y
-        );
+        var colorStartIndex = this.ImageDataArrayIndexFromTextureCoordinate(x, y);
         this.pixels[x][y] = {
           r: myData.data[colorStartIndex],
           g: myData.data[colorStartIndex + 1],
@@ -60,11 +52,7 @@ class EnviromentTexture {
 
     // Calculate angle around the Y Axis
     var forward = new Vector(0, 0, 1);
-    var angleAlongY = Math.acos(
-      (direction.x * forward.x + direction.z * forward.z) /
-        (Math.sqrt(Math.pow(direction.x, 2) + Math.pow(direction.z, 2)) *
-          Math.sqrt(Math.pow(forward.x, 2) + Math.pow(forward.z, 2)))
-    );
+    var angleAlongY = Math.acos((direction.x * forward.x + direction.z * forward.z) / (Math.sqrt(Math.pow(direction.x, 2) + Math.pow(direction.z, 2)) * Math.sqrt(Math.pow(forward.x, 2) + Math.pow(forward.z, 2))));
 
     // Convert from radians to degrees
     angleAlongY = angleAlongY * (180 / Math.PI);

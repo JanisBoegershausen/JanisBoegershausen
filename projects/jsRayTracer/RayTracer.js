@@ -27,35 +27,16 @@ function setup() {
   camPos = new Vector(0, 0, 0);
 
   // Create two triagnles which make up a red and blue square
-  triangles.push(
-    new Triangle(
-      new Vector(-1, -1, 3),
-      new Vector(-1, 1, 3),
-      new Vector(1, -1, 3),
-      { r: 200, g: 0, b: 0 }
-    )
-  );
+  triangles.push(new Triangle(new Vector(-1, -1, 3), new Vector(-1, 1, 3), new Vector(1, -1, 3), { r: 200, g: 0, b: 0 }));
 
-  triangles.push(
-    new Triangle(
-      new Vector(-1, 1, 3),
-      new Vector(1, 1, 3),
-      new Vector(1, -1, 3),
-      { r: 0, g: 0, b: 200 }
-    )
-  );
+  triangles.push(new Triangle(new Vector(-1, 1, 3), new Vector(1, 1, 3), new Vector(1, -1, 3), { r: 0, g: 0, b: 200 }));
 
   // Create one worker for each tile
   var tileWidth = Math.floor(resolution.x / verticalTileCount);
   var tileHeight = Math.floor(resolution.y / horizontalTileCount);
   for (var x = 0; x < horizontalTileCount; x += 1) {
     for (var y = 0; y < horizontalTileCount; y += 1) {
-      CreateWorker(
-        Math.floor(x * tileWidth),
-        Math.floor(y * tileHeight),
-        tileWidth,
-        tileHeight
-      );
+      CreateWorker(Math.floor(x * tileWidth), Math.floor(y * tileHeight), tileWidth, tileHeight);
     }
   }
 
@@ -67,13 +48,13 @@ function draw() {
   // Todo: Show info about the renderer using html elements
 
   if (keyIsDown(13)) {
-    background(0);
     StartRenderFrame();
   }
 }
 
 // Tell all workers to render their dedicated area once, send the result to be drawn and then wait for new messages.
 function StartRenderFrame() {
+  background(0);
   for (var i = 0; i < renderWorkers.length; i += 1) {
     renderWorkers[i].postMessage({
       type: "RenderOnce",
@@ -166,10 +147,7 @@ function DrawPixel(x, y, r, g, b, a) {
 
 function InitializeNewCanvas() {
   var sketchHolder = document.getElementById("rayTracer-canvas");
-  var canvas = createCanvas(
-    sketchHolder.offsetWidth,
-    sketchHolder.offsetHeight
-  );
+  var canvas = createCanvas(sketchHolder.offsetWidth, sketchHolder.offsetHeight);
   canvas.parent("rayTracer-canvas");
 }
 
@@ -179,10 +157,7 @@ function windowResized() {
 
 function ResizeCanvasToFit() {
   var sketchHolder = document.getElementById("rayTracer-canvas");
-  if (
-    sketchHolder.offsetWidth != width ||
-    sketchHolder.offsetHeight != height
-  ) {
+  if (sketchHolder.offsetWidth != width || sketchHolder.offsetHeight != height) {
     resizeCanvas(sketchHolder.offsetWidth, sketchHolder.offsetHeight);
   }
 }

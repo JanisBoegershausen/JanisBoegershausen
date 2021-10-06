@@ -1,10 +1,4 @@
-importScripts(
-  "Mathmatics.js",
-  "Vector.js",
-  "Triangle.js",
-  "RayHitInfo.js",
-  "EnviromentTexture.js"
-);
+importScripts("Mathmatics.js", "Vector.js", "Triangle.js", "RayHitInfo.js", "EnviromentTexture.js");
 
 settings = {
   // In realtime mode, pixel-skipping is enabled, which enhances performance, but introduces noise!
@@ -26,9 +20,7 @@ settings = {
 
 self.addEventListener("message", (e) => {
   if (e.data.type == "AssignArea") {
-    console.log(
-      `Setting area to: x: ${e.data.x}, y: ${e.data.y}, w: ${e.data.w}, h: ${e.data.h}. `
-    );
+    console.log(`Setting area to: x: ${e.data.x}, y: ${e.data.y}, w: ${e.data.w}, h: ${e.data.h}. `);
     settings.area = e.data;
   } else if (e.data.type == "StartLoop") {
     // Start rendering loop. Random delay, so that the workers always complete their area at different
@@ -61,14 +53,7 @@ function SetTrianglesFromObjArray(objArray) {
   settings.triangles = [];
 
   for (var i = 0; i < objArray.length; i += 1) {
-    settings.triangles.push(
-      new Triangle(
-        objArray[i].p0,
-        objArray[i].p1,
-        objArray[i].p2,
-        objArray[i].color
-      )
-    );
+    settings.triangles.push(new Triangle(objArray[i].p0, objArray[i].p1, objArray[i].p2, objArray[i].color));
   }
 }
 
@@ -77,11 +62,7 @@ function RenderFrame() {
   var pixels = [];
   for (var x = settings.area.x; x < settings.area.x + settings.area.w; x += 1) {
     pixels[x] = [];
-    for (
-      var y = settings.area.y;
-      y < settings.area.y + settings.area.h;
-      y += 1
-    ) {
+    for (var y = settings.area.y; y < settings.area.y + settings.area.h; y += 1) {
       pixels[x][y] = RenderPixel(x, y);
     }
   }
@@ -94,9 +75,7 @@ function RenderFrame() {
 function RenderPixel(x, y) {
   if (settings.useRealtimeMode) {
     // Raytracer skips random pixels based on their distance from the center for better performance. (Adds noise!)
-    var pixelDistanceFromCenterSqrt =
-      Math.abs((x - resolution.x / 2) / resolution.x) +
-      Math.abs((y - resolution.y / 2) / resolution.y);
+    var pixelDistanceFromCenterSqrt = Math.abs((x - resolution.x / 2) / resolution.x) + Math.abs((y - resolution.y / 2) / resolution.y);
     var chanceToSkipPixel = 99.5;
     if (random(0, 100) < chanceToSkipPixel * pixelDistanceFromCenterSqrt) {
       return {
@@ -140,10 +119,7 @@ function CastRay(origin, direction) {
     // Calculate the distance the ray traveled before hitting the triangle (if it hits)
     var triangleNormal = triangle.GetNormal();
     var D = Vector.Dot(triangleNormal, triangle.p0);
-    var distance = -(
-      (Vector.Dot(triangleNormal, origin) + D) /
-      Vector.Dot(triangleNormal, direction)
-    );
+    var distance = -((Vector.Dot(triangleNormal, origin) + D) / Vector.Dot(triangleNormal, direction));
 
     // Calculate the hit point
     var hitPoint = Vector.Add(origin, Vector.Scale(direction, distance));
@@ -161,11 +137,7 @@ function CastRay(origin, direction) {
 // Returns a direction vector based on the normalized screenposition (0 -> 1). Forward is the direction the camera is facing
 function GetRayDirection(screenX, screenY) {
   // Get point on grid infront of camera
-  var p = new Vector(
-    (screenX * 2 - 1) * settings.cameraFovMult,
-    (screenY * 2 - 1) * settings.cameraFovMult,
-    1
-  );
+  var p = new Vector((screenX * 2 - 1) * settings.cameraFovMult, (screenY * 2 - 1) * settings.cameraFovMult, 1);
   return p.normalized();
 }
 
@@ -182,11 +154,7 @@ function InsideOutsideTest(triangle, point) {
   var triangleNormal = triangle.GetNormal();
 
   // If the (cosecant) angle between all sides and the respective point (C0, C1, C2) is positive, the point is within the triangle.
-  if (
-    Vector.Dot(triangleNormal, Vector.Cross(edge0, C0)) > 0 &&
-    Vector.Dot(triangleNormal, Vector.Cross(edge1, C1)) > 0 &&
-    Vector.Dot(triangleNormal, Vector.Cross(edge2, C2)) > 0
-  ) {
+  if (Vector.Dot(triangleNormal, Vector.Cross(edge0, C0)) > 0 && Vector.Dot(triangleNormal, Vector.Cross(edge1, C1)) > 0 && Vector.Dot(triangleNormal, Vector.Cross(edge2, C2)) > 0) {
     return true;
   } else {
     return false;
