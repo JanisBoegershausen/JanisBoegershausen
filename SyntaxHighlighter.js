@@ -3,7 +3,7 @@ function SyntaxHighlightElementsOnPage() {
   var elements = document.getElementsByClassName("codeSection");
 
   for (var i = 0; i < elements.length; i += 1) {
-    StylizeElement(elements[i]);
+    SyntaxHighlightElement(elements[i]);
   }
 }
 
