@@ -51,12 +51,40 @@
       <br />
       The sampling is done by converting the direction of a ray to UVs through calculating the around the y axis and the y component of the direction:
       <br />
-
-      <code>var a = 1;</code>
-
       <div class="codeSection">
-        // Convert from radians to degrees angleAlongY = angleAlongY * (180 / Math.PI); // Make angle go from 0 to 360 clockwise instead of from 0 to 180 in both directions if (direction.x < 0) { angleAlongY = angleAlongY * -1 + 360; } var textureCoordinate = { x: angleAlongY / 360, y: (direction.y
-        + 1) / 2 }; var pixel = this.pixels[Math.floor(textureCoordinate.x * this.width)][Math.floor(textureCoordinate.y * this.height)];
+Sample(direction) {
+  // Normalize direction
+  direction = direction.normalized();
+
+  // Calculate angle around the Y Axis using formula for angles of 2d vectors. This way we ignore the z component completly. 
+  var a = direction.x * Vector.forward.x + direction.z * Vector.forward.z;
+  var b = Math.sqrt(Math.pow(direction.x, 2) + Math.pow(direction.z, 2)) * Math.sqrt(Math.pow(Vector.forward.x, 2) + Math.pow(Vector.forward.z, 2));
+  var angleAlongY = a / b;
+  angleAlongY = Math.acos(angleAlongY);
+
+  // Convert angle from radians to degrees
+  angleAlongY = angleAlongY * (180 / Math.PI);
+
+  // Make angle go from 0 to 360 clockwise instead of from 0 to 180 in both directions
+  if (direction.x < 0) {
+    angleAlongY = angleAlongY * -1 + 360;
+  }
+
+  // Calculate uv in range from 0 to 1
+  var uv = {
+    x: angleAlongY / 360,
+    y: (direction.y + 1) / 2, // This might cause distortion towards the horizon
+  };
+
+  // Calculate textureCoordinate in range from 0 to width/height
+  var textureCoordinate = {
+    x: Math.floor(uv.x * this.width),
+    y: Math.floor(uv.y * this.height),
+  };
+
+  // Return the sampled color
+  return this.pixels[textureCoordinate.x][textureCoordinate.y];
+}
       </div>
       <br />
       This is the used HDRI from
