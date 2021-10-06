@@ -1,33 +1,6 @@
 <head>
 	<title>Raytracer</title>
-	<style>
-		body {
-			background-color: 30323D;
-		}
-		
-		headline {
-			display: inline-block;
-			height: 100px;
-			width: 100%;
-			text-align: center;
-			/*background-color: #59A5D8;*/
-			background-color: #30323D;
-			color:white;
-			font-size: 50px;
-			font-family: Source Code Pro;
-		}
-		
-		textSection {
-			margin-bottom: 10px;
-			font-size: 30px;
-			background-color: 24262e;
-			width: auto;
-			display: block;
-			font-family: Source Code Pro;
-			padding: 20px;
-			color:white;
-		}
-	</style>
+	<link rel="stylesheet" href="../../main.css" />
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
 	<script language="javascript" type="text/javascript" src="Vector.js"></script>
@@ -41,7 +14,7 @@
 	<headline style="color: white; cursor:pointer; text-align: left; font-size: 20px; height:20px" onclick="window.open('https://janisboegershausen.github.io/');">Home</headline>
 	<headline> Raytracer </headline>
 	<textSection>
-		A simple <coloredText style="color:tomato;">(WIP)</coloredText> raytracer written in javascript.
+		A simple <coloredText style="color:tomato;">(WIP)</coloredText> raytracer written in javascript. Press enter to start a new render.
 	</textSection>
 	<textSection>
 		Canvas
@@ -65,5 +38,30 @@
 			Right now, the ammount of tiles is set to 4x4, so 16 tiles in total. <br>
 			For each of these tiles, a webworker is created, that renders the dedicated section and sends it back to the main script.
 		</div>
+	</textSection>
+	<textSection>
+		Enviroment
+		<div style="font-size: 20px; margin-top: 10px">
+			Since I became a bit bored of the empty background behind the square, I implemented a skybox. <br>
+			To achieve this, each ray that does not hit a triangle, samples an HDRI, which is loaded in advance <br>
+			and the data is send to all of the workers. <br>
+			<br>
+			The sampling is done by converting the direction of a ray to UVs through calculating the around the y axis and the y component of the direction: <br>
+			<div class="codeSection">
+				// Convert from radians to degrees<br>
+				angleAlongY = angleAlongY * (180 / Math.PI);<br>
+				<br>
+				// Make angle go from 0 to 360 clockwise instead of from 0 to 180 in both directions<br>
+				if (direction.x < 0) {
+				<div style="text-indent: 1em;">angleAlongY = angleAlongY * -1 + 360;</div>
+				}<br>
+				<br>
+				var textureCoordinate = { x: angleAlongY / 360, y: (direction.y + 1) / 2 }; <br>
+				var pixel = this.pixels[Math.floor(textureCoordinate.x * this.width)][Math.floor(textureCoordinate.y * this.height)];
+			</div>
+			<br>
+			This is the used HDRI from <a href="https://polyhaven.com/hdris">Polyhaven</a>:
+		</div>
+		<img id="hdri" src="../../images/enviromentTexture_1.jpg">
 	</textSection>
 </body>

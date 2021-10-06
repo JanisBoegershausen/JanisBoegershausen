@@ -29,3 +29,21 @@ textSection {
   padding: 20px;
   color: white;
 }
+
+.codeSection {
+  background-color: 1B1C22;
+  font-family: monospace;
+  text-align: justify;
+  padding: 10px;
+  padding-left: 50px;
+  right: 0px;
+  word-break: break-all;
+}
+
+a {
+  color: white
+}
+
+a:visited {
+  color: gray;
+}

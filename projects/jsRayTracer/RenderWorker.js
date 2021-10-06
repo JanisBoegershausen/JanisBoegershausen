@@ -1,5 +1,5 @@
 importScripts(
-  "Math.js",
+  "Mathmatics.js",
   "Vector.js",
   "Triangle.js",
   "RayHitInfo.js",
@@ -17,7 +17,7 @@ settings = {
   camPos: null,
   cameraFovMult: 1,
 
-  enviromentTexture: new EnviromentTexture(),
+  enviromentTexture: null,
 
   // Area this worker has to render
   area: { x: 0, y: 0, w: 100, h: 100 },
@@ -43,6 +43,11 @@ self.addEventListener("message", (e) => {
     settings.cameraFovMult = e.data.cameraFovMult;
   } else if (e.data.type == "SetResolution") {
     settings.resolution = e.data.resolution;
+  } else if (e.data.type == "SetEnviroment") {
+    settings.enviromentTexture = new EnviromentTexture();
+    settings.enviromentTexture.pixels = e.data.enviromentTexture.pixels;
+    settings.enviromentTexture.width = e.data.enviromentTexture.width;
+    settings.enviromentTexture.height = e.data.enviromentTexture.height;
   }
 });
 
@@ -72,7 +77,11 @@ function RenderFrame() {
   var pixels = [];
   for (var x = settings.area.x; x < settings.area.x + settings.area.w; x += 1) {
     pixels[x] = [];
-    for (var y = settings.area.y; y < settings.area.y + settings.area.h; y += 1) {
+    for (
+      var y = settings.area.y;
+      y < settings.area.y + settings.area.h;
+      y += 1
+    ) {
       pixels[x][y] = RenderPixel(x, y);
     }
   }
