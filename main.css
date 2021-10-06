@@ -8,11 +8,22 @@ body {
   background-color: 30323d;
 }
 
+returnHomeButton {
+  cursor: pointer; 
+  text-align: left; 
+  font-size: 20px; 
+  font-family: Source Code Pro;
+  background-color: #30323d;
+  color: white;
+  display: inline-block;
+  height: 20px;
+  width: 100%;
+}
+
 headline {
   display: inline-block;
   width: 100%;
   text-align: center;
-  /*background-color: #59A5D8;*/
   background-color: #30323d;
   color: white;
   font-size: 50px;

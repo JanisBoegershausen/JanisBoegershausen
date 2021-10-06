@@ -21,14 +21,13 @@ function setup() {
 
   // Create and load an EnvriomentTexture using the texture at the bottom of the page
   enviromentTexture = new EnviromentTexture();
-  enviromentTexture.LoadFromImage();
+  enviromentTexture.LoadFromImage("hdri");
 
   // Set the camera position to the center of the world
   camPos = new Vector(0, 0, 0);
 
   // Create two triagnles which make up a red and blue square
   triangles.push(new Triangle(new Vector(-1, -1, 3), new Vector(-1, 1, 3), new Vector(1, -1, 3), { r: 200, g: 0, b: 0 }));
-
   triangles.push(new Triangle(new Vector(-1, 1, 3), new Vector(1, 1, 3), new Vector(1, -1, 3), { r: 0, g: 0, b: 200 }));
 
   // Create one worker for each tile
@@ -47,6 +46,7 @@ function setup() {
 function draw() {
   // Todo: Show info about the renderer using html elements
 
+  // Rerender using the enter key
   if (keyIsDown(13)) {
     StartRenderFrame();
   }
@@ -132,7 +132,7 @@ function OnRenderWorkerDone(pixels) {
   }
 }
 
-// Draw a pixel given a point in scaled coordinates. (If resolutionWidth == 10, x = 9 would be at the far right end of the screen)
+// Draw a rectangle given a point in scaled coordinates and its color. (If resolutionWidth == 10, x = 9 would be at the far right end of the screen)
 function DrawPixel(x, y, r, g, b, a) {
   fill(r, g, b, a);
   strokeWeight(0);
@@ -145,6 +145,7 @@ function DrawPixel(x, y, r, g, b, a) {
 
 // Canvas helper functions:
 
+// Create a new canvas and set it to be a child of the rayTracer-canvas element
 function InitializeNewCanvas() {
   var sketchHolder = document.getElementById("rayTracer-canvas");
   var canvas = createCanvas(sketchHolder.offsetWidth, sketchHolder.offsetHeight);
@@ -155,6 +156,7 @@ function windowResized() {
   ResizeCanvasToFit();
 }
 
+// Resize the canvas to fit the rayTracer-canvas element
 function ResizeCanvasToFit() {
   var sketchHolder = document.getElementById("rayTracer-canvas");
   if (sketchHolder.offsetWidth != width || sketchHolder.offsetHeight != height) {

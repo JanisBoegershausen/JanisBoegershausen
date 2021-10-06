@@ -9,7 +9,7 @@ function SyntaxHighlightElementsOnPage() {
 
 // Calculate syntax highlighting for the given element
 function SyntaxHighlightElement(element) {
-  // Get the unstylized html
+  // Get the html code before syntax highlighting
   var innerHTML = element.innerHTML;
 
   // Stylize strings

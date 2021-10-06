@@ -1,9 +1,7 @@
 function setup() {
+  // Create a canvas fitting into the schedule-canvas element
   var sketchHolder = document.getElementById("schedule-canvas");
-  var canvas = createCanvas(
-    sketchHolder.offsetWidth,
-    sketchHolder.offsetHeight
-  );
+  var canvas = createCanvas(sketchHolder.offsetWidth, sketchHolder.offsetHeight);
   canvas.parent("schedule-canvas");
 }
 
@@ -37,9 +35,10 @@ function draw() {
     text(i, xPos, 35);
   }
 
-  // Draw current time
-  var currentTimeX =
-    (new Date().getHours() / 24 + new Date().getMinutes() / 60 / 24) * width;
+  // Get X position of the current time of day
+  var currentTimeX = (new Date().getHours() / 24 + new Date().getMinutes() / 60 / 24) * width;
+
+  // Daw a line at the currentTimeX position
   fill(255, 255, 255, 150);
   stroke(0, 0, 0, 150);
   strokeWeight(1);
@@ -56,25 +55,16 @@ function DrawScheduleEntry(startTime, endTime, r, g, b, label) {
   var center = start + w / 2;
 
   // Check if mouse is hovering this entry
-  var isHovered =
-    mouseX < end && mouseX > start && mouseY > 0 && mouseY < height;
+  var isHovered = mouseX < end && mouseX > start && mouseY > 0 && mouseY < height;
 
   // Draw shadow rect
   noStroke();
-  fill(
-    r * 0.75 * (isHovered ? 1.5 : 1),
-    g * 0.75 * (isHovered ? 1.5 : 1),
-    b * 0.75 * (isHovered ? 1.5 : 1)
-  );
+  fill(r * 0.75 * (isHovered ? 1.5 : 1), g * 0.75 * (isHovered ? 1.5 : 1), b * 0.75 * (isHovered ? 1.5 : 1));
   rect(start, 0, w, height);
 
   // Draw actuall bar rect
   noStroke();
-  fill(
-    r * (isHovered ? 1.5 : 1),
-    g * (isHovered ? 1.5 : 1),
-    b * (isHovered ? 1.5 : 1)
-  );
+  fill(r * (isHovered ? 1.5 : 1), g * (isHovered ? 1.5 : 1), b * (isHovered ? 1.5 : 1));
   rect(start, 0, w, height - 10);
 
   // Draw label

@@ -1,8 +1,10 @@
 <head>
   <title>Raytracer</title>
+
   <link rel="stylesheet" href="../../main.css" />
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+
   <script language="javascript" type="text/javascript" src="../../SyntaxHighlighter.js"></script>
   <script language="javascript" type="text/javascript" src="Vector.js"></script>
   <script language="javascript" type="text/javascript" src="RayHitInfo.js"></script>
@@ -17,13 +19,11 @@
 </head>
 
 <body>
-  <headline style="color: white; cursor: pointer; text-align: left; font-size: 20px; height: 20px" onclick="window.open('https://janisboegershausen.github.io/');">Home</headline>
+  <returnHomeButton onclick="window.open('https://janisboegershausen.github.io/');">Home</returnHomeButton>
   <headline> Raytracer </headline>
   <textSection> A simple <coloredText style="color: tomato">(WIP)</coloredText> raytracer written in javascript. Press enter to start a new render. </textSection>
   <textSection>
     Canvas
-    <br />
-    <br />
     <div style="width: 500px; height: 500px; margin: auto" id="rayTracer-canvas"></div>
   </textSection>
   <textSection>
@@ -55,16 +55,8 @@
       <code>var a = 1;</code>
 
       <div class="codeSection">
-// Convert from radians to degrees
-angleAlongY = angleAlongY * (180 / Math.PI);
-
-// Make angle go from 0 to 360 clockwise instead of from 0 to 180 in both directions
-if (direction.x < 0) {
-	angleAlongY = angleAlongY * -1 + 360;
-}
-
-var textureCoordinate = { x: angleAlongY / 360, y: (direction.y + 1) / 2 };
-var pixel = this.pixels[Math.floor(textureCoordinate.x * this.width)][Math.floor(textureCoordinate.y * this.height)];
+        // Convert from radians to degrees angleAlongY = angleAlongY * (180 / Math.PI); // Make angle go from 0 to 360 clockwise instead of from 0 to 180 in both directions if (direction.x < 0) { angleAlongY = angleAlongY * -1 + 360; } var textureCoordinate = { x: angleAlongY / 360, y: (direction.y
+        + 1) / 2 }; var pixel = this.pixels[Math.floor(textureCoordinate.x * this.width)][Math.floor(textureCoordinate.y * this.height)];
       </div>
       <br />
       This is the used HDRI from

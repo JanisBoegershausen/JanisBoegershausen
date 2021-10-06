@@ -5,6 +5,8 @@ class Vector {
     this.z = z;
   }
 
+  static forward = new Vector(0, 0, 1);
+
   normalized() {
     var m = this.mag();
     return new Vector(this.x / m, this.y / m, this.z / m);

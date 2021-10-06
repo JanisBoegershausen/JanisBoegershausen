@@ -1,5 +1,7 @@
+// Import required scripts
 importScripts("Mathmatics.js", "Vector.js", "Triangle.js", "RayHitInfo.js", "EnviromentTexture.js");
 
+// Settings contains all data the worker needs for rendering
 settings = {
   // In realtime mode, pixel-skipping is enabled, which enhances performance, but introduces noise!
   useRealtimeMode: false,
@@ -11,6 +13,7 @@ settings = {
   camPos: null,
   cameraFovMult: 1,
 
+  // Current enviroment
   enviromentTexture: null,
 
   // Area this worker has to render
@@ -48,16 +51,15 @@ function StartRenderLoop() {
   setInterval(RenderFrame, 50);
 }
 
-// Since objects loose their type when send to a worker, restore the type to Traingle.
+// Since objects loose their type when send to a worker, restore the type of the triangles and store them in the triangles array.
 function SetTrianglesFromObjArray(objArray) {
   settings.triangles = [];
-
   for (var i = 0; i < objArray.length; i += 1) {
     settings.triangles.push(new Triangle(objArray[i].p0, objArray[i].p1, objArray[i].p2, objArray[i].color));
   }
 }
 
-// Render the dedicated area
+// Render the dedicated area once and send the result back to RayTracer.js to be drawn.
 function RenderFrame() {
   var pixels = [];
   for (var x = settings.area.x; x < settings.area.x + settings.area.w; x += 1) {
@@ -96,7 +98,7 @@ function RenderPixel(x, y) {
   // Cast a ray from the camera in the calculated direction and store the RayHitInfo
   var hit = CastRay(settings.camPos, camDirection);
 
-  // If a triangle was hit, return the respective triangles color, otherwise return black
+  // If a triangle was hit, return the respective triangles color, otherwise return the sampled color from the current enviromentTexture
   if (hit != null) {
     return {
       r: hit.triangle.color.r,
@@ -111,22 +113,22 @@ function RenderPixel(x, y) {
 
 // Cast a ray from an origin in a given direction. If it hits the triangle, returns the hitPoint, otherwise returns null.
 function CastRay(origin, direction) {
+  // Normalize the direction
   direction = direction.normalized();
 
+  // Loop through all triangles that need to be rendered
   for (var i = 0; i < settings.triangles.length; i += 1) {
-    var triangle = settings.triangles[i];
-
-    // Calculate the distance the ray traveled before hitting the triangle (if it hits)
-    var triangleNormal = triangle.GetNormal();
-    var D = Vector.Dot(triangleNormal, triangle.p0);
+    // Calculate the distance the ray traveled before hitting the plane the triangle is on
+    var triangleNormal = settings.triangles[i].GetNormal();
+    var D = Vector.Dot(triangleNormal, settings.triangles[i].p0);
     var distance = -((Vector.Dot(triangleNormal, origin) + D) / Vector.Dot(triangleNormal, direction));
 
-    // Calculate the hit point
+    // Calculate the point where the ray intersects the triangle plane
     var hitPoint = Vector.Add(origin, Vector.Scale(direction, distance));
 
     // Check if the point on the plane we intersected is inside the tringle
-    if (InsideOutsideTest(triangle, hitPoint)) {
-      return new RayHitInfo(triangle, hitPoint);
+    if (InsideOutsideTest(settings.triangles[i], hitPoint)) {
+      return new RayHitInfo(settings.triangles[i], hitPoint);
     }
   }
 
@@ -134,23 +136,26 @@ function CastRay(origin, direction) {
   return null;
 }
 
-// Returns a direction vector based on the normalized screenposition (0 -> 1). Forward is the direction the camera is facing
+// Returns a direction vector based on a normalized screenposition (0 -> 1). Forward is the direction the camera is facing
 function GetRayDirection(screenX, screenY) {
   // Get point on grid infront of camera
-  var p = new Vector((screenX * 2 - 1) * settings.cameraFovMult, (screenY * 2 - 1) * settings.cameraFovMult, 1);
-  return p.normalized();
+  var direction = new Vector((screenX * 2 - 1) * settings.cameraFovMult, (screenY * 2 - 1) * settings.cameraFovMult, 1);
+  return direction.normalized();
 }
 
 // Test if the given triangle contains the given point (which lies on the same plane as the triangle).
 function InsideOutsideTest(triangle, point) {
+  // Calculate edge vectors
   var edge0 = Vector.Sub(triangle.p1, triangle.p0);
   var edge1 = Vector.Sub(triangle.p2, triangle.p1);
   var edge2 = Vector.Sub(triangle.p0, triangle.p2);
 
+  // Calculate vectors from the point to each corner of the triangle
   var C0 = Vector.Sub(point, triangle.p0);
   var C1 = Vector.Sub(point, triangle.p1);
   var C2 = Vector.Sub(point, triangle.p2);
 
+  // Calculate the normal of the triangle
   var triangleNormal = triangle.GetNormal();
 
   // If the (cosecant) angle between all sides and the respective point (C0, C1, C2) is positive, the point is within the triangle.
