@@ -5,7 +5,7 @@ class Vector {
     this.z = z;
   }
 
-  static forward = new Vector(0, 0, 1);
+  static forward = new Vector(0, 0, -1);
 
   normalized() {
     var m = this.mag();
@@ -54,5 +54,10 @@ class Vector {
 
   static Dot(a, b) {
     return a.x * b.x + a.y * b.y + a.z * b.z;
+  }
+
+  // Reflects the given direction on a plane with the given normal and returns the new direction
+  static Reflect(inDirection, normal) {
+    return Vector.Sub(inDirection, Vector.Scale(normal, Vector.Dot(inDirection, normal) * 2));
   }
 }

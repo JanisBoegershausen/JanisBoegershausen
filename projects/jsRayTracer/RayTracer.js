@@ -10,8 +10,8 @@ var cameraFovMult = 1.5;
 
 // Worker settings and data
 var renderWorkers = [];
-var horizontalTileCount = 4;
-var verticalTileCount = 4;
+var horizontalTileCount = 2;
+var verticalTileCount = 2;
 
 var enviromentTexture;
 
@@ -24,14 +24,12 @@ function setup() {
   enviromentTexture.LoadFromImage("hdri");
 
   // Set the camera position to the center of the world
-  camPos = new Vector(2, -2, -3);
+  camPos = new Vector(0, 1, 0);
 
-  // Create a cube and a square
-  triangles = triangles.concat(Square(new Vector(-4, 1, -1), new Vector(-2, 1, -1), new Vector(-2, 3, -1), new Vector(-4, 3, -1)))
-  triangles = triangles.concat(Cube(
-    new Vector(-1, 1,  1), new Vector(1, 1,  1), new Vector(1, -1,  1), new Vector(-1, -1,  1), 
-    new Vector(-1, 1, -1), new Vector(1, 1, -1), new Vector(1, -1, -1), new Vector(-1, -1, -1)
-    ));
+  triangles = triangles.concat(Square(new Vector(-1, 0, -3), new Vector(-1, 2, -3), new Vector(1, 2, -3), new Vector(1, 0, -3)));
+
+  // Create ground plane
+  triangles = triangles.concat(Square(new Vector(-100, 0, -100), new Vector(-100, 0, 100), new Vector(100, 0, 100), new Vector(100, 0, -100)));
 
   // Create one worker for each tile
   var tileWidth = Math.floor(resolution.x / verticalTileCount);
@@ -44,7 +42,7 @@ function setup() {
 
   // Start rendering the scene once
   StartRenderFrame();
-} 
+}
 
 function draw() {
   // Todo: Show info about the renderer using html elements
@@ -104,7 +102,7 @@ function CreateWorker(x, y, w, h) {
   // Send the camera data to the worker
   worker.postMessage({
     type: "SetCamData",
-    camPos: Vector.Mult(camPos, new Vector(-1, -1, 1)), // HERE I INVERT THE VECTOR! THIS IS BECAUSE OTHERWISE THE SCENE IS INVERTED! FIND OUT WHY!!!
+    camPos: Vector.Mult(camPos, new Vector(1, 1, 1)), // HERE I INVERT THE VECTOR! THIS IS BECAUSE OTHERWISE THE SCENE IS INVERTED! FIND OUT WHY!!!
     cameraFovMult: cameraFovMult,
   });
 }
@@ -139,6 +137,7 @@ function OnRenderWorkerDone(pixels) {
 function DrawPixel(x, y, r, g, b, a) {
   fill(r, g, b, a);
   strokeWeight(0);
+  noStroke();
 
   posX = (x / resolution.x) * width;
   posY = (y / resolution.y) * height;

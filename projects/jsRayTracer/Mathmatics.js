@@ -8,3 +8,16 @@ function random(minV, maxV) {
 function Remap(x, in_min, in_max, out_min, out_max) {
   return ((x - in_min) / (out_min - in_min)) * (out_max - in_max) + in_max;
 }
+
+function Lerp(a, b, t) {
+  return a + (b - a) * t;
+}
+
+function MixColor(a, b, t) {
+  return {
+    r: Lerp(a.r, b.r, t),
+    g: Lerp(a.g, b.g, t),
+    b: Lerp(a.b, b.b, t),
+    a: Lerp(a.a, b.a, t)
+  }
+}

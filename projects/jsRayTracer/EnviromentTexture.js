@@ -73,7 +73,7 @@ class EnviromentTexture {
     // Calculate uv in range from 0 to 1
     var uv = {
       x: angleAlongY / 360,
-      y: (direction.y + 1) / 2, // This might cause distortion towards the horizon
+      y: (direction.y + 1) / 2 // This might cause distortion towards the horizon
     };
 
     // Calculate textureCoordinate in range from 0 to width/height
