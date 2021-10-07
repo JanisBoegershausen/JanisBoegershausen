@@ -6,7 +6,7 @@ var triangles = [];
 
 // Camera settings and data
 var camPos = null;
-var cameraFovMult = 1;
+var cameraFovMult = 1.5;
 
 // Worker settings and data
 var renderWorkers = [];
@@ -24,11 +24,14 @@ function setup() {
   enviromentTexture.LoadFromImage("hdri");
 
   // Set the camera position to the center of the world
-  camPos = new Vector(0, 0, 0);
+  camPos = new Vector(2, -2, -3);
 
-  // Create two triagnles which make up a red and blue square
-  triangles.push(new Triangle(new Vector(-1, -1, 3), new Vector(-1, 1, 3), new Vector(1, -1, 3), { r: 200, g: 0, b: 0 }));
-  triangles.push(new Triangle(new Vector(-1, 1, 3), new Vector(1, 1, 3), new Vector(1, -1, 3), { r: 0, g: 0, b: 200 }));
+  // Create a cube and a square
+  triangles = triangles.concat(Square(new Vector(-4, 1, -1), new Vector(-2, 1, -1), new Vector(-2, 3, -1), new Vector(-4, 3, -1)))
+  triangles = triangles.concat(Cube(
+    new Vector(-1, 1,  1), new Vector(1, 1,  1), new Vector(1, -1,  1), new Vector(-1, -1,  1), 
+    new Vector(-1, 1, -1), new Vector(1, 1, -1), new Vector(1, -1, -1), new Vector(-1, -1, -1)
+    ));
 
   // Create one worker for each tile
   var tileWidth = Math.floor(resolution.x / verticalTileCount);
@@ -41,7 +44,7 @@ function setup() {
 
   // Start rendering the scene once
   StartRenderFrame();
-}
+} 
 
 function draw() {
   // Todo: Show info about the renderer using html elements
@@ -101,7 +104,7 @@ function CreateWorker(x, y, w, h) {
   // Send the camera data to the worker
   worker.postMessage({
     type: "SetCamData",
-    camPos: camPos,
+    camPos: Vector.Mult(camPos, new Vector(-1, -1, 1)), // HERE I INVERT THE VECTOR! THIS IS BECAUSE OTHERWISE THE SCENE IS INVERTED! FIND OUT WHY!!!
     cameraFovMult: cameraFovMult,
   });
 }

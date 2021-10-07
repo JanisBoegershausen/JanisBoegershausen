@@ -116,6 +116,9 @@ function CastRay(origin, direction) {
   // Normalize the direction
   direction = direction.normalized();
 
+  var rayHitInfo = null;
+  var currentHitDistance = 1000;
+
   // Loop through all triangles that need to be rendered
   for (var i = 0; i < settings.triangles.length; i += 1) {
     // Calculate the distance the ray traveled before hitting the plane the triangle is on
@@ -123,17 +126,21 @@ function CastRay(origin, direction) {
     var D = Vector.Dot(triangleNormal, settings.triangles[i].p0);
     var distance = -((Vector.Dot(triangleNormal, origin) + D) / Vector.Dot(triangleNormal, direction));
 
-    // Calculate the point where the ray intersects the triangle plane
-    var hitPoint = Vector.Add(origin, Vector.Scale(direction, distance));
 
-    // Check if the point on the plane we intersected is inside the tringle
-    if (InsideOutsideTest(settings.triangles[i], hitPoint)) {
-      return new RayHitInfo(settings.triangles[i], hitPoint);
+    // Checks if the ray hits the triangle infront of the camera and not behind it
+    if (distance > 0 && distance < currentHitDistance) {
+      // Calculate the point where the ray intersects the triangle plane
+      var hitPoint = Vector.Add(origin, Vector.Scale(direction, distance));
+      // Check if the point on the plane we intersected is inside the tringle
+      if(InsideOutsideTest(settings.triangles[i], hitPoint)) {
+        rayHitInfo = new RayHitInfo(settings.triangles[i], hitPoint);
+        currentHitDistance = distance;
+      }
     }
   }
 
   // If no hit was found, return null
-  return null;
+  return rayHitInfo;
 }
 
 // Returns a direction vector based on a normalized screenposition (0 -> 1). Forward is the direction the camera is facing
