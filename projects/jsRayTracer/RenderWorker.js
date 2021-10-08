@@ -20,7 +20,7 @@ settings = {
   area: { x: 0, y: 0, w: 100, h: 100 },
   resolution: new Vector(100, 100, 0),
 
-  bounces: 3,
+  bounces: 5,
 };
 
 self.addEventListener("message", (e) => {
@@ -99,23 +99,45 @@ function RenderPixel(x, y) {
   var direction = GetRayDirection(uv.x, uv.y);
   var color = null;
 
-  for (var bounce = 0; bounce < settings.bounces; bounce += 1) {
-    // Cast a ray from the camera in the calculated direction and store the RayHitInfo
-    var hit = CastRay(origin, direction);
+  // Trace the pixel and return the resulting color. The pixel at x=250 and y=400 is beeing logged to the console.
+  return Trace(origin, direction, color, 0, x == 250 && y == 400);
+}
 
-    // If a triangle was hit, return the respective triangles color, otherwise return the sampled color from the current enviromentTexture
-    if (hit != null) {
-      color = color == null ? hit.triangle.color : MixColor(color, hit.triangle.color, 0.5);
-      direction = Vector.Reflect(direction, Vector.Scale(hit.triangle.GetNormal(), -1));
-      origin = hit.point + Vector.Scale(direction, 0.01);
-    } else {
-      var sampledColor = settings.enviromentTexture.Sample(direction);
-      color = color == null ? sampledColor : MixColor(color, sampledColor, 0.5);
-      break;
-    }
+// Traces a ray based on settings and returns color
+function Trace(origin, direction, inputColor, iteration, debugLog) {
+  // Cast a ray from the origin into the direction
+  var hit = CastRay(origin, direction);
+
+  // Calculate the color of the ray
+  var hitColor = hit != null ? hit.triangle.color : settings.enviromentTexture.Sample(direction);
+
+  // Mix hitColor with input color
+  var newColor = inputColor != null ? MixColor(inputColor, hitColor, 0.5) : hitColor;
+
+  // For debugging. This allows printing the path of a single traced pixel
+  if (debugLog) {
+    console.log({
+      origin: origin,
+      direction: direction,
+      hit: hit
+    });
   }
 
-  return color;
+  // Reflection using recusion
+  if (hit != null && iteration < settings.bounces) {
+    // Calculate the reflection rays direction
+    var newDirection = Vector.Reflect(direction, hit.triangle.GetNormal()).normalized();
+    // Trace the reflection and mix the current color with the refleciton color
+    newColor = MixColor(newColor, Trace(hit.point, newDirection, newColor, iteration + 1, debugLog), (1 / (iteration + 1)) * 0.5); // Mix less and less each iteration
+  }
+
+  // Turn the pixel we are debugging red
+  if (debugLog) {
+    newColor = { r: 255, g: 0, b: 0, a: 255 };
+  }
+
+  // Return mixed color
+  return newColor;
 }
 
 // Cast a ray from an origin in a given direction. If it hits the triangle, returns the hitPoint, otherwise returns null.
@@ -132,18 +154,22 @@ function CastRay(origin, direction) {
     var triangleNormal = settings.triangles[i].GetNormal();
 
     // Only draw triangles that are facing the camera
-    if (Vector.Dot(direction, triangleNormal) > 0) {
-      var D = Vector.Dot(triangleNormal, settings.triangles[i].p0);
-      var distance = -(Vector.Dot(triangleNormal, origin) + D) / Vector.Dot(triangleNormal, direction);
+    if (true || Vector.Dot(direction, triangleNormal) > 0) {
+     var t = 0;
+
+      var denom = Vector.Dot(triangleNormal, direction);
+      if(denom > 0.00001) {
+        t = Vector.Dot(Vector.Sub(settings.triangles[0].p0, origin), triangleNormal) / denom;
+      } 
 
       // Checks if the ray hits the triangle infront of the camera and not behind it
-      if (distance < 0 && Math.abs(distance) < Math.abs(currentHitDistance)) {
+      if (t > 0 && Math.abs(t) < Math.abs(currentHitDistance)) {
         // Calculate the point where the ray intersects the triangle plane
-        var hitPoint = Vector.Add(origin, Vector.Scale(direction, distance));
+        var hitPoint = Vector.Add(origin, Vector.Scale(direction, t));
         // Check if the point on the plane we intersected is inside the tringle
         if (InsideOutsideTest(settings.triangles[i], hitPoint)) {
           rayHitInfo = new RayHitInfo(settings.triangles[i], hitPoint);
-          currentHitDistance = distance;
+          currentHitDistance = t;
         }
       }
     }
@@ -156,10 +182,9 @@ function CastRay(origin, direction) {
 // Returns a direction vector based on a normalized screenposition (0 -> 1). Forward is the direction the camera is facing
 function GetRayDirection(screenX, screenY) {
   // Get point on grid infront of camera
-  var direction = new Vector((screenX * 2 - 1) * settings.cameraFovMult, (screenY * 2 - 1) * settings.cameraFovMult, -1);
+  var direction = new Vector((screenX * 2 - 1) * settings.cameraFovMult, -(screenY * 2 - 1) * settings.cameraFovMult, -1);
   return direction.normalized();
 }
-
 
 // Test if the given triangle contains the given point (which lies on the same plane as the triangle).
 function InsideOutsideTest(triangle, point) {

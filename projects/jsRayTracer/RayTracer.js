@@ -10,8 +10,8 @@ var cameraFovMult = 1.5;
 
 // Worker settings and data
 var renderWorkers = [];
-var horizontalTileCount = 2;
-var verticalTileCount = 2;
+var horizontalTileCount = 1;
+var verticalTileCount = 1;
 
 var enviromentTexture;
 
@@ -26,11 +26,16 @@ function setup() {
   // Set the camera position to the center of the world
   camPos = new Vector(0, 1, 0);
 
-  triangles = triangles.concat(Square(new Vector(-1, 0, -3), new Vector(-1, 2, -3), new Vector(1, 2, -3), new Vector(1, 0, -3)));
-
+  // Square facing camera
+  triangles = triangles.concat(Square(new Vector(-1, 0, -3), new Vector(-1, 1, -4), new Vector(1, 1, -4), new Vector(1, 0, -3), "Facing Camera"));
+  // Square facing right
+  triangles = triangles.concat(Square(new Vector(1, 0, 0), new Vector(1, 2, 0), new Vector(1, 2, -3), new Vector(1, 0, -3), "Facing Right"));
+  // Square facing left
+  triangles = triangles.concat(Square(new Vector(1, 0, -2), new Vector(1, 1, -2), new Vector(2, 1, -1), new Vector(2, 0, -1), "Facing Left"));
   // Create ground plane
-  triangles = triangles.concat(Square(new Vector(-100, 0, -100), new Vector(-100, 0, 100), new Vector(100, 0, 100), new Vector(100, 0, -100)));
-
+  var groundY = -1;
+  triangles = triangles.concat(Square(new Vector(-3, groundY, -3), new Vector(3, groundY, -3), new Vector(3, groundY, 3), new Vector(-3, groundY, 3), "Ground"));
+  
   // Create one worker for each tile
   var tileWidth = Math.floor(resolution.x / verticalTileCount);
   var tileHeight = Math.floor(resolution.y / horizontalTileCount);

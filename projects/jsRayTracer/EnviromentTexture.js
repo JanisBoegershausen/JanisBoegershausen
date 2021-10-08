@@ -79,7 +79,7 @@ class EnviromentTexture {
     // Calculate textureCoordinate in range from 0 to width/height
     var textureCoordinate = {
       x: Math.floor(uv.x * this.width),
-      y: Math.floor(uv.y * this.height),
+      y: Math.floor((1-uv.y) * this.height),
     };
 
     // Return the sampled color

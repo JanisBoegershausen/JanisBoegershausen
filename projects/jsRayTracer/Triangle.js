@@ -1,10 +1,12 @@
 class Triangle {
-  constructor(a, b, c, color) {
+  constructor(a, b, c, color, name) {
     this.p0 = a;
     this.p1 = b;
     this.p2 = c;
 
     this.color = color;
+    console.log(name);
+    this.name = name;
   }
 
   GetNormal() {

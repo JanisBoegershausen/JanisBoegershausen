@@ -58,6 +58,8 @@ class Vector {
 
   // Reflects the given direction on a plane with the given normal and returns the new direction
   static Reflect(inDirection, normal) {
-    return Vector.Sub(inDirection, Vector.Scale(normal, Vector.Dot(inDirection, normal) * 2));
+    inDirection = inDirection.normalized();
+    normal = normal.normalized();
+    return Vector.Sub(inDirection, Vector.Scale(normal, Vector.Dot(inDirection, normal) * 2)).normalized();
   }
 }
