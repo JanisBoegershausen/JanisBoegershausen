@@ -9,6 +9,7 @@ projectTitle {
   position: absolute;
   z-index: 999;
   pointer-events: none;
+  font-size: 2vw;
 }
 
 category {
@@ -22,11 +23,11 @@ category {
 
 categoryHeader {
   margin: 0px;
-  font-size: 30px;
+  font-size: 3vh;
+  padding: 2vh;
   background-color: 24262e;
   width: auto;
   display: block;
-  padding: 20px;
 }
 
 categoryContentGrid {
@@ -88,7 +89,9 @@ categoryContentGrid > *:first-child {
   transition: 0.2s;
   display: inline;
   margin: 30px;
-  font-size: 30px;
+  font-size: 2vw;
+  margin: 1vw;
+  padding: 0px;
   cursor: pointer;
   color: white;
   font-family: Source Code Pro;
@@ -96,7 +99,7 @@ categoryContentGrid > *:first-child {
 }
 
 #sectionButton:hover {
-  font-size: 40px;
+  font-size: 3vw;
 }
 
 #moreText {
@@ -121,6 +124,7 @@ categoryContentGrid > *:first-child {
 /* Under construction & Hello There */
 
 #underConstructionWarning {
+  font-size: 3vw;
   transition: 1s;
   cursor: grab;
 }
@@ -141,7 +145,7 @@ categoryContentGrid > *:first-child {
   display: inline-block;
   text-align: center;
   position: absolute;
-  top: 600px;
+  top: 65%;
   z-index: -1000;
   background-color: #30323d;
   color: transparent;
