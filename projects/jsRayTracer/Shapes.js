@@ -4,7 +4,7 @@ function Square(a, b, c, d, name) {
   triangles.push(new Triangle(a, b, d, { r: 255, g: 0, b: 0, a: 255 }, name));
   triangles.push(new Triangle(b, c, d, { r: 0, g: 255, b: 0, a: 255 }, name));
 
-  var color = {r: Math.random() * 255, g: Math.random() * 255, b: Math.random() * 255, a: 255};
+  var color = Color.Random();
 
   for(var i = 0; i < triangles.length; i++) {
     triangles[i].color = color;

@@ -1,5 +1,5 @@
 // Import required scripts
-importScripts("Mathmatics.js", "Vector.js", "Triangle.js", "RayHitInfo.js", "EnviromentTexture.js");
+importScripts("Mathmatics.js", "Vector.js", "Color.js", "Triangle.js", "RayHitInfo.js", "EnviromentTexture.js");
 
 // Settings contains all data the worker needs for rendering
 settings = {
@@ -57,7 +57,7 @@ function StartRenderLoop() {
 function SetTrianglesFromObjArray(objArray) {
   settings.triangles = [];
   for (var i = 0; i < objArray.length; i += 1) {
-    settings.triangles.push(new Triangle(objArray[i].p0, objArray[i].p1, objArray[i].p2, objArray[i].color));
+    settings.triangles.push(Object.assign(new Triangle(), objArray[i]));
   }
 }
 
@@ -112,7 +112,7 @@ function Trace(origin, direction, inputColor, iteration, debugLog) {
   var hitColor = hit != null ? hit.triangle.color : settings.enviromentTexture.Sample(direction);
 
   // Mix hitColor with input color
-  var newColor = inputColor != null ? MixColor(inputColor, hitColor, 0.5) : hitColor;
+  var newColor = inputColor != null ? Color.Mix(inputColor, hitColor, 0.5) : hitColor;
 
   // For debugging. This allows printing the path of a single traced pixel
   if (debugLog) {
@@ -128,12 +128,12 @@ function Trace(origin, direction, inputColor, iteration, debugLog) {
     // Calculate the reflection rays direction
     var newDirection = Vector.Reflect(direction, hit.triangle.GetNormal()).normalized();
     // Trace the reflection and mix the current color with the refleciton color
-    newColor = MixColor(newColor, Trace(hit.point, newDirection, newColor, iteration + 1, debugLog), (1 / (iteration + 1)) * 0.5); // Mix less and less each iteration
+    newColor = Color.Mix(newColor, Trace(hit.point, newDirection, newColor, iteration + 1, debugLog), (1 / (iteration + 1)) * 0.5); // Mix less and less each iteration
   }
 
   // Turn the pixel we are debugging red
   if (debugLog) {
-    newColor = { r: 255, g: 0, b: 0, a: 255 };
+    newColor = new Color(255, 0, 0, 255);
   }
 
   // Return mixed color

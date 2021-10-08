@@ -5,7 +5,6 @@ class Triangle {
     this.p2 = c;
 
     this.color = color;
-    console.log(name);
     this.name = name;
   }
 
