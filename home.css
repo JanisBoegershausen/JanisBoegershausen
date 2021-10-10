@@ -1,17 +1,3 @@
-projectTitle {
-  width: 100%;
-  display: block;
-  background-color: #000000b3;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  filter: brightness(1);
-  filter: blur(0px);
-  position: absolute;
-  z-index: 999;
-  pointer-events: none;
-  font-size: 2vw;
-}
-
 category {
   margin: 20px;
   display: block;
@@ -50,10 +36,11 @@ categoryContentGrid {
   height: 100%;
 
   object-fit: cover;
+  clip-path: content-box;
 }
 
 #moreText:hover + #projectImg {
-  filter: brightness(0.9) blur(1px) contrast(1.1) !important;
+  filter: brightness(0.9) blur(5px) contrast(1.1) !important;
 }
 
 projectEntry {
@@ -104,21 +91,29 @@ categoryContentGrid > *:first-child {
 
 #moreText {
   transition: 0.3s;
-  width: 100%;
-  display: block;
-  padding-top: 50%;
-  padding-bottom: 44%;
+
+  position: absolute !important;
+  display: flex;
+  height:100%;
+  width:100%;
+  padding: auto;
+  align-items: center;
+  justify-content: center;
+
   filter: brightness(1);
   filter: brightness(1) blur(0px) contrast(1) !important;
-  position: absolute !important;
+  
   z-index: 999 !important;
   color: transparent;
   cursor: pointer;
+  font-size: 0vh;
 }
 
 #moreText:hover {
   color: white !important;
   filter: brightness(1) blur(0px) contrast(1) !important;
+  text-shadow: 2px 2px black;
+  font-size: 3vh;
 }
 
 /* Under construction & Hello There */
@@ -159,7 +154,6 @@ categoryContentGrid > *:first-child {
 }
 
 /* Social media icons */
-
 #social_twitter {
   cursor: pointer;
   filter: brightness(1000%);
