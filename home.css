@@ -180,3 +180,12 @@ categoryContentGrid > *:first-child {
 #social_artstation:hover {
   filter: brightness(75%) sepia(100) saturate(75) hue-rotate(-185deg);
 }
+
+#social_github {
+  cursor: pointer;
+  filter: brightness(1000%);
+}
+
+#social_github:hover {
+  filter: brightness(50%);
+}
