@@ -16,24 +16,20 @@
 	</head>
 
 	<body>
-		<headline style="height: auto; background: transparent;">
-			<h1 style = "font-size: 6vw; margin-top: 25px; ">Janis Bögershausen</h1>
-			<ul id="menu" style="cursor: default; margin:0px; padding:0px; ">
-				<li style="display:inline; ">
-					<img id="social_twitter" src="images/logos/2021 Twitter logo - white.png" style="width: auto; height: 7vh" alt="Twitter" onclick="window.open('https://twitter.com/ZailDev');">
-				</li>
-				<li style="display:inline; ">
-					<img id="social_itch" src="images/logos/itchio-logo-textless-white.png" style="width: auto; height: 7vh" alt="Itch.io" onclick="window.open('https://zail1337.itch.io/');">
-				</li>
-				<li style="display:inline; ">
-					<img id="social_artstation" src="images/logos/artstation-logo-white.png" style="width: auto; height: 7vh" alt="Artstation" onclick="window.open('https://www.artstation.com/janisb');">
-				</li>
-				<li style="display:inline; ">
-					<img id="social_github" src="images/logos/social_github.png" style="width: auto; height: 7vh" alt="Artstation" onclick="window.open('https://github.com/JanisBoegershausen');">
-				</li>
-			</ul>
-			<h4 id="underConstructionWarning" > ! UNDER CONSTRUCTION ! </h4>
+		<header>
+			<h1 style = "font-size: 6vw; margin-bottom: 0; margin-top: 15%; ">Janis Bögershausen</h1>
+			<h1 style = "font-size: 2vw; margin-top: 0%; ">Under Construction</h1>
+			<div id="menu" style="display:flex; justify-content: center; cursor: default; margin:10%; padding:0px;">
+				<img id="social_twitter" class="social" src="images/logos/2021 Twitter logo - white.png" alt="Twitter" onclick="window.open('https://twitter.com/ZailDev');">
+				<img id="social_itch" class="social" src="images/logos/itchio-logo-textless-white.png" alt="Itch.io" onclick="window.open('https://zail1337.itch.io/');">
+				<img id="social_artstation" class="social" src="images/logos/artstation-logo-white.png" alt="Artstation" onclick="window.open('https://www.artstation.com/janisb');">
+				<img id="social_github" class="social" src="images/logos/social_github.png" alt="Github" onclick="window.open('https://github.com/JanisBoegershausen');">
+			</div>
 			<img id="helloThere" src="images/helloThere.png">
+			
+		</header>
+		
+		<masthead>
 			<ul id="menu" style="padding: 0px; margin: 0px">
 				<a id = "sectionButton" href="#games">Games</a>
 				<a id = "sectionButton" href="#3dart">3D-Art</li>
@@ -42,9 +38,9 @@
 				<a id = "sectionButton" href="#2dart">2D-Art</a>
 				<a id = "sectionButton" href="#music">Music</a>
 			</ul>
-		</headline>
-		
-		<categories>
+		</masthead>
+
+		<categories style="display: table; height: fit-content;">
 			<category>
 				<categoryHeader name="games" id="games">Games 🖥️</categoryHeader>
 				<categoryContentGrid>
@@ -139,11 +135,23 @@
 						<div id="moreText">More</div>
 						<img id="projectImg" src="images/placeholder.jpg">
 					</projectEntry>
+					<projectEntry onclick="alert('This is not available yet!');">
+						<div id="moreText">More</div>
+						<img id="projectImg" src="images/placeholder.jpg">
+					</projectEntry>
 				</categoryContentGrid>
 			</category>
 			<category>
 				<categoryHeader name="2dart" id="2dart">2D-Art 🎨</categoryHeader>
 				<categoryContentGrid>
+					<projectEntry onclick="alert('This is not available yet!');">
+						<div id="moreText">More</div>
+						<img id="projectImg" src="images/placeholder.jpg">
+					</projectEntry>
+					<projectEntry onclick="alert('This is not available yet!');">
+						<div id="moreText">More</div>
+						<img id="projectImg" src="images/placeholder.jpg">
+					</projectEntry>
 					<projectEntry onclick="alert('This is not available yet!');">
 						<div id="moreText">More</div>
 						<img id="projectImg" src="images/placeholder.jpg">
@@ -176,6 +184,10 @@
 					<projectEntry onclick="window.open('https://soundcloud.com/zail1337/strange-vibes');">
 						<div id="moreText">Listen</div>
 						<img id="projectImg" src="images/projectImages/Music/projectImage_strangeVibes.jpg">
+					</projectEntry>
+					<projectEntry onclick="alert('This is not available yet!');">
+						<div id="moreText">More</div>
+						<img id="projectImg" src="images/placeholder.jpg">
 					</projectEntry>
 				</categoryContentGrid>
 			</category>
