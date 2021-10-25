@@ -11,6 +11,20 @@ header {
   background: var(--darker);
 }
 
+#header-myname {
+  transition: 0.05s;
+  cursor: default;
+  font-size: 6vw;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 0;
+  margin-top: 15%;
+}
+
+#header-myname:hover {
+  transform: translate3d(0px, -5px, 0px) scale(1.2);
+}
+
 masthead {
   z-index: 100;
   position: sticky;
@@ -154,7 +168,7 @@ categoryContentGrid > *:first-child {
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent;
 
-  background: linear-gradient(to right, #488CD5 0%, #EEC170 25%, #0CCE6B 50%, #B14AED 75%, #488CD5 100%);
+  background: linear-gradient(to right, #488cd5 0%, #eec170 25%, #0cce6b 50%, #b14aed 75%, #488cd5 100%);
   background-size: 200% auto;
 
   animation: gradientAnimation 3s linear infinite;
@@ -180,7 +194,7 @@ categoryContentGrid > *:first-child {
 }
 
 #helloThere {
-  transition: .5s;
+  transition: 0.5s;
   display: inline-block;
   text-align: center;
   position: absolute;
