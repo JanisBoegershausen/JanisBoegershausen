@@ -1,20 +1,35 @@
 /* File containing all styles needed across the website. */
 
+:root {
+  --font: Source Code Pro;
+  --font-code: monospace;
+  /* Colors */
+  --darkest: #24262e;
+  --darker: #30323d;
+  --dark: #414554;
+  --text: #ffffff;
+  --link: #488cd5;
+  --link-visited: #4055b4;
+  --button: #0cce6b;
+  --button-hovered: #0aae59;
+  --button-clicked: #3ef496;
+}
+
 html {
   scroll-behavior: smooth;
-  background-color: #24262E;
+  background-color: var(--darkest);
 }
 
 body {
-  background-color: 30323d;
+  background-color: var(--darker);
   margin-left: 10%;
   margin-right: 10%;
   height: fit-content;
 }
 
 returnHomeButton {
-  cursor: pointer; 
-  background-color: #30323d;
+  cursor: pointer;
+  background-color: var(--darker);
   color: white;
   display: inline-block;
   height: 30px;
@@ -29,26 +44,26 @@ headline {
   display: inline-block;
   width: 100%;
   text-align: center;
-  background-color: #30323d;
-  color: white;
+  background-color: var(--darker);
+  color: var(--text);
   font-size: 50px;
-  font-family: Source Code Pro;
+  font-family: var(--font);
 }
 
 textSection {
   margin: 10px;
   font-size: 30px;
-  background-color: 24262e;
+  background-color: var(--darkest);
   width: auto;
   display: block;
-  font-family: Source Code Pro;
+  font-family: var(--font);
   padding: 20px;
-  color: white;
+  color: var(--text);
 }
 
 .codeSection {
-  background-color: 1b1c22;
-  font-family: monospace;
+  background-color: #1b1c22;
+  font-family: var(--font-code);
   text-align: justify;
   padding: 10px;
   padding-left: 50px;
@@ -59,11 +74,11 @@ textSection {
 
 /* Link Section */
 a {
-  color: white;
+  color: var(--link);
 }
 
 a:visited {
-  color: gray;
+  color: var(--link-visited);
 }
 
 /* Input Section */
@@ -79,8 +94,8 @@ input[type="checkbox"]::after {
 
   border-radius: 10px;
 
-  border-color: #30323d;
-  background-color: #414554;
+  border-color: var(--darker);
+  background-color: var(--dark);
 
   font-family: Source Code Pro;
   font-size: large;
@@ -99,7 +114,7 @@ input[type="checkbox"]:checked::after {
   content: "✓";
   text-align: center;
   text-justify: center;
-  background-color: #0cce6b;
+  background-color: var(--button);
 }
 
 select {
@@ -107,11 +122,11 @@ select {
 
   border-radius: 10px;
 
-  border-color: #30323d;
-  background-color: #414554;
-  color: #0cce6b;
+  border-color: var(--darker);
+  background-color: var(--dark);
+  color: var(--button);
 
-  font-family: Source Code Pro;
+  font-family: var(--font);
   font-size: large;
   font-weight: 600;
 
@@ -123,11 +138,11 @@ button {
 
   border-radius: 10px;
 
-  border-color: #30323d;
-  background-color: #414554;
-  color: #0cce6b;
+  border-color: var(--darker);
+  background-color: var(--dark);
+  color: var(--button);
 
-  font-family: Source Code Pro;
+  font-family: var(--font);
   font-size: large;
   font-weight: 600;
 
@@ -136,8 +151,8 @@ button {
 }
 
 button:disabled {
-  color: #24262e;
-  background-color: #30323d;
-  border-color: #414554;
+  color: var(--darkest);
+  background-color: var(--darker);
+  border-color: var(--dark);
   cursor: default;
 }

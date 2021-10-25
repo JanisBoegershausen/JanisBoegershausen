@@ -2,20 +2,20 @@ header {
   display: inline-block;
   width: 100%;
   text-align: center;
-  background-color: #30323d;
-  color: white;
+  background-color: var(--darker);
+  color: var(--text);
   font-size: 50px;
-  font-family: Source Code Pro;
+  font-family: var(--font);
   max-height: 80vw;
   height: calc(100% - 10%);
-  background: #30323d;
+  background: var(--darker);
 }
 
 masthead {
   z-index: 100;
   position: sticky;
   top: 0px;
-  background-color: #414554;
+  background-color: var(--dark);
   align-items: center;
   justify-content: center;
   display: flex;
@@ -26,16 +26,16 @@ category {
   margin: 20px;
   display: block;
   width: auto;
-  color: white;
-  font-family: Source Code Pro;
-  background-color: 2d2f39;
+  color: var(--text);
+  font-family: var(--font);
+  background-color: #2d2f39;
 }
 
 categoryHeader {
   margin: 0px;
   font-size: 3vh;
   padding: 2vh;
-  background-color: 24262e;
+  background-color: var(--darkest);
   width: auto;
   display: block;
 }
@@ -104,14 +104,14 @@ categoryContentGrid > *:first-child {
   margin: 1vw;
   padding: 0px;
   cursor: pointer;
-  color: white;
-  font-family: Source Code Pro;
+  color: var(--text);
+  font-family: var(--font);
   text-decoration: none;
 }
 
 #sectionButton:hover {
   font-weight: bolder;
-  color: #488cd5;
+  color: var(--link);
   font-size: 2.3vw;
 }
 
@@ -157,10 +157,10 @@ categoryContentGrid > *:first-child {
   background: linear-gradient(to right, #488CD5 0%, #EEC170 25%, #0CCE6B 50%, #B14AED 75%, #488CD5 100%);
   background-size: 200% auto;
 
-  animation: rainbowAnimation 3s linear infinite;
+  animation: gradientAnimation 3s linear infinite;
 }
 
-@keyframes rainbowAnimation {
+@keyframes gradientAnimation {
   to {
     background-position: 200% center;
   }
@@ -168,7 +168,7 @@ categoryContentGrid > *:first-child {
 
 #underConstructionWarning:active {
   margin-bottom: 1000px;
-  color: #30323d;
+  color: var(--darker);
   filter: blur(10px);
 }
 
@@ -188,10 +188,10 @@ categoryContentGrid > *:first-child {
   transform-origin: bottom center;
   transform: scaleY(0);
   z-index: 50;
-  background-color: #30323d;
+  background-color: var(--darker);
   color: transparent;
   font-size: 30px;
-  font-family: Source Code Pro;
+  font-family: var(--font);
   background-color: transparent;
   width: 20%;
   left: 40%;
