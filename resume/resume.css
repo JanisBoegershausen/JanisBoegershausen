@@ -1,0 +1,5 @@
+.section {
+    padding: 2%;
+    color:var(--text);
+    font-family: var(--font);
+}
