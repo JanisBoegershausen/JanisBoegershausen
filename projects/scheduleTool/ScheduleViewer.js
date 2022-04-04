@@ -15,10 +15,10 @@ function draw() {
 
   // Draw entries (automate later)
   DrawScheduleEntry(0, 7, 50, 25, 200, "Sleep");
-  DrawScheduleEntry(9, 12, 100, 215, 60, "Art");
-  DrawScheduleEntry(12, 14, 130, 0, 155, "Code");
-  DrawScheduleEntry(14, 16, 50, 165, 255, "Web");
-  DrawScheduleEntry(16, 19, 180, 100, 20, "Game Dev");
+  DrawScheduleEntry(9, 11, 100, 215, 60, "Writing");
+  DrawScheduleEntry(11, 13, 130, 0, 155, "Editing");
+  DrawScheduleEntry(13, 17, 180, 100, 20, "Game Dev");
+  DrawScheduleEntry(17, 19, 50, 165, 255, "Other");
   DrawScheduleEntry(22, 24, 50, 25, 200, "Sleep");
 
   // Draw time indicators
